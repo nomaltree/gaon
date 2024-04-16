@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>가온 홈페이지</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	<link href="/css/customer/layout.css" type="text/css" rel="stylesheet" />
+	<style>
+		#visual .content-container {
+			height: inherit;
+			display: flex;
+			align-items: center;
+
+			background: url("/images/mypage/visual.png") no-repeat center;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- header 부분 -->
+	<div th:replace="~{/view/inc/loginHeader::header}"></div>
+	
+	<!-- --------------------------- <nav> --------------------------------------- -->
+	<div th:replace="~{/view/inc/navigation::nav}"></div>
+	
+	<!-- --------------------------- <visual> --------------------------------------- -->
+	<div th:replace="~{/view/inc/visual::visual}"></div>
+	
+	<!-- --------------------------- <body> --------------------------------------- -->
+	<div id="body">
+		<div class="content-container clearfix">
+	<!-- --------------------------- aside --------------------------------------- -->
+	<div th:replace="~{/view/inc/aside::aside}"></div>
+	
+	<!-- --------------------------- main --------------------------------------- -->
+	<div th:replace="~{/view/inc/indexMain::index}"></div>
+		</div>
+	</div>
+	<!-- ------------------- <footer> --------------------------------------- -->
+	<div th:replace="~{/view/inc/footer::footer}"></div>
+</body>
+
+</html>

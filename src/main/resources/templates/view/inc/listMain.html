@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<main class="main" th:fragment="list">
+	<h2 class="main title" th:text=${board}></h2>
+
+	<div class="breadcrumb">
+		<h3 class="hidden">경로</h3>
+		<ul>
+			<li>home</li>
+			<li>게시판</li>
+			<li th:text=${board}></li>
+		</ul>
+	</div>
+
+	<div class="search-form margin-top first align-right">
+		<h3 class="hidden">공지사항 검색폼</h3>
+		<form class="table-form" action="search">
+			<fieldset>
+				<legend class="hidden">공지사항 검색 필드</legend>
+				<label class="hidden">검색분류</label> <select name="keyword">
+					<option value="title">제목</option>
+					<option value="nickname">작성자</option>
+				</select> <label class="hidden">검색어</label> <input type="text" name="query"
+					value="" placeholder="검색어를 입력해주세요" />
+				<button class="btn btn-search" type="submit">검색</button>
+			</fieldset>
+		</form>
+	</div>
+	
+	<div class="notice margin-top">
+		<h3 class="hidden">공지사항 목록</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="w60">번호</th>
+					<th class="expand">제목</th>
+					<th class="w100">작성자</th>
+					<th class="w100">작성일</th>
+					<th class="w60">조회수</th>
+					<th class="w60">댓글</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="nt : ${notice}">
+					<td th:text="${nt.id}"></td>
+					<td class="title indent text-align-left"><a
+						th:text="${nt.title}" th:href="${ 'detail?id=' + nt.id }"></a></td>
+					<td th:text="${nt.nickname}"></td>
+					<td th:text="${nt.strRegDate}"></td>
+					<td th:text="${nt.hit}"></td>
+					<td th:text="${nt.comment}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="text-align-right margin-top">
+		<a class="btn-text btn-default" href="reg">글쓰기</a>
+	</div>
+	<div th:replace="~{/view/inc/pager::pagination}"></div>
+</main>

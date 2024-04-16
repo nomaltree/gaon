@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="pagination" th:fragment="pagination">
+		<p th:each="page : ${ pagination.pages }"
+			th:class="${ page.active ? 'active' : '' }">
+			<a th:href="${ page.url }" th:text="${ page.label }"></a>
+		</p>
+	</div>
+</body>

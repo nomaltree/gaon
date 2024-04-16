@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title th:text="${board}"></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="/css/customer/layout.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+	<div th:replace="~{/view/inc/header::header}"></div>
+
+	<!-- --------------------------- <nav> --------------------------------------- -->
+	<div th:replace="~{/view/inc/navigation::nav}"></div>
+	
+	<!-- --------------------------- <visual> --------------------------------------- -->
+	<div th:replace="~{/view/inc/visual::visual}"></div>
+	
+	<!-- --------------------------- <body> --------------------------------------- -->
+	<div id="body">
+		<div class="content-container clearfix">
+
+			<!-- --------------------------- aside --------------------------------------- -->
+			<div th:replace="~{/view/inc/aside::aside}"></div>
+
+			<!-- --------------------------- main --------------------------------------- -->
+			<div th:replace="~{/view/inc/listMain::list}"></div>
+			
+		</div>
+	</div>
+
+	<!-- ------------------- <footer> --------------------------------------- -->
+	<div th:replace="~{/view/inc/footer::footer}"></div>
+</body>
+
+</html>

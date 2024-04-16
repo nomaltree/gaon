@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!---Coding By CoderGirl | www.codinglabweb.com--->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>회원가입</title>
+  <!---Custom CSS File--->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+	<h1 style="text-align: center; margin-top:20px; font-size:60px; color:white;"><a href="index">Gaon</a></h1>
+  <div class="container">
+  	<div class="login form">
+      <header>회원가입</header>
+      <form action="signup" method="post" th:object="${user}">
+        <input type="text" th:field="*{id}" placeholder="아이디를 입력하세요">
+        <div class="error"  th:errors="*{id}"></div>
+        <input type="text" th:field="*{nickname}" placeholder="닉네임을 입력하세요">
+        <div class="error"  th:errors="*{nickname}"></div>
+        <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
+        <div class="error"  th:errors="*{password}"></div>
+        <input type="submit" class="button" value="회원가입" onclick="return confirm('가입하시겠습니까?')">
+      </form>
+      <div class="signup">
+        <span class="signup">이미 계정이 있으신가요?
+         <a href="login">로그인</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

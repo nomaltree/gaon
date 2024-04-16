@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<main th:fragment="detail">
+	<h2 class="main title">게시글</h2>
+
+	<div class="breadcrumb">
+		<h3 class="hidden">breadlet</h3>
+		<ul>
+			<li>home</li>
+			<li>게시판</li>
+			<li>게시글</li>
+		</ul>
+	</div>
+
+	<form method="post" th:object="${notice}">
+		<div class="margin-top first">
+			<h3 class="hidden">공지사항 내용</h3>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>게시글 번호</th>
+						<td th:text="*{id}"></td>
+					</tr>
+					<tr>
+						<th>제목</th>
+						<td class="text-align-left text-indent text-strong text-orange"
+							colspan="3" th:text="*{title}"></td>
+					</tr>
+					<tr>
+						<th>게시판</th>
+						<td th:text="*{board}"></td>
+					</tr>
+
+					<tr>
+						<th>작성일</th>
+						<td class="text-align-left text-indent" colspan="3"
+							th:text="*{regdate}"></td>
+					</tr>
+					<tr>
+						<th>작성자</th>
+						<td th:text="*{nickname}"></td>
+						<th>조회수</th>
+						<td th:text="*{hit}"></td>
+					</tr>
+					<tr>
+						<th>첨부파일</th>
+						<td colspan="3" th:text="*{file}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<pre th:text="*{content}"
+				style="margin: 10px; font-size: 15px; font-weight: bold; color: black; line-height:26px;"></pre>
+		</div>
+	</form>
+</main>

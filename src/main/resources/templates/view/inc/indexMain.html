@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+
+<main class="main" th:fragment="index">
+	<h1 class="main intro title">가온에 오신 여러분을 환영합니다.</h1>
+	<h2 class="main intro">가온은 한국어로 '가운데'를 의미하며, 피아노에서는 주요한 기준이 되는 도음을
+		가리킵니다. 음악에 관한 대화를 나눌 수 있는 따뜻한 공간을 찾고 계신다면, 가온 커뮤니티에 가입해보세요. 여기서 음악에 대한
+		다양한 주제를 함께 나누고 공유할 수 있습니다. 함께 음악을 즐기며 소통해보세요!</h2>
+	<h2 class="main title">최신 게시글</h2>
+
+
+	<div class="notice margin-top">
+		<h3 class="hidden">공지사항 목록</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="w60">번호</th>
+					<th class="expand">제목</th>
+					<th class="w100">작성자</th>
+					<th class="w100">작성일</th>
+					<th class="w60">조회수</th>
+					<th class="w60">댓글</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="nt : ${notice}">
+					<td th:text="${nt.id}"></td>
+					<td class="title indent text-align-left"><a
+						th:text="${nt.title}" th:href="${ 'detail?id=' + nt.id }"></a></td>
+					<td th:text="${nt.nickname}"></td>
+					<td th:text="${nt.strRegDate}"></td>
+					<td th:text="${nt.hit}"></td>
+					<td th:text="${nt.comment}"></td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</main>
