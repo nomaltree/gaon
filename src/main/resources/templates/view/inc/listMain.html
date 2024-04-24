@@ -15,10 +15,15 @@
 
 	<div class="search-form margin-top first align-right">
 		<h3 class="hidden">공지사항 검색폼</h3>
-		<form class="table-form" action="search">
+		<form class="table-form" action="search" th:object="${pagination}">
 			<fieldset>
 				<legend class="hidden">공지사항 검색 필드</legend>
-				<label class="hidden">검색분류</label> <select name="keyword">
+				<label class="hidden">검색분류</label> 
+				<select th:field="*{od}">
+					<option th:each="order : ${orders}" 
+							th:value="${order.value}" th:text="${order.label}">
+				</select>
+				<select name="keyword">
 					<option value="title">제목</option>
 					<option value="nickname">작성자</option>
 				</select> <label class="hidden">검색어</label> <input type="text" name="query"
@@ -31,7 +36,7 @@
 	<div class="notice margin-top">
 		<h3 class="hidden">공지사항 목록</h3>
 		<table class="table">
-			<thead>
+			<thead class="thead">
 				<tr>
 					<th class="w60">번호</th>
 					<th class="expand">제목</th>

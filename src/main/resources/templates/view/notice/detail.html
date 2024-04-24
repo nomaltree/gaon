@@ -32,12 +32,8 @@
 					style="font-size: 15px; color: black; font-weight: bold; margin-top: 10px;">댓글</h1>
 				<form method="post">
 					<div class="comment" th:each="cm : ${comments}">
-						<th:block th:if="${cm.id < 0}">
-							<input type="text" name="id" value="${cm.id}">
-							<input type="text" name="noticeId" value="${cm.noticeId}">
-						</th:block>
 						<h1 th:text="${cm.nickname}"></h1>
-						<h2 th:text="${cm.content}"></h2>
+						<pre th:text="${cm.content}"></pre>
 						<h3 th:text="${cm.regdate}"></h3>
 					</div>
 				</form>

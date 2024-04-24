@@ -12,6 +12,7 @@ import com.nomaltree.web.dto.Comment;
 import com.nomaltree.web.dto.Notice;
 import com.nomaltree.web.logic.NoticeLogic;
 import com.nomaltree.web.mapper.NoticeMapper;
+import com.nomaltree.web.mapper.NoticeMapper.Order;
 import com.nomaltree.web.model.Pagination;
 
 @Service
@@ -19,6 +20,9 @@ public class NoticeService {
 
 	@Autowired NoticeMapper noticeMapper;
 
+	public Order[] getOrders() {
+		return noticeMapper.orders;
+	}
 	//최신 게시글 10개 불러오기 메소드
 	public List<Notice> getNewestList() {
 		List<Notice> notice = noticeMapper.getNewestList();
@@ -34,7 +38,7 @@ public class NoticeService {
 	//게시글 검색 메소드
 	public List<Notice> searchNotice(String keyword, String query, String board, Pagination pagination) {
 		pagination.setRecordCount(noticeMapper.getSearchCount(keyword, query, board));
-		List<Notice> notice = noticeMapper.searchNotice(keyword, query, board, pagination.getFirstRecordIndex(), pagination.getSz());
+		List<Notice> notice = noticeMapper.searchNotice(keyword, query, board, pagination.getFirstRecordIndex(), pagination.getSz(), pagination.getOd());
 		return notice;
 	}
 	//게시글 갯수 불러오기 메소드

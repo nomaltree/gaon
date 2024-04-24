@@ -5,17 +5,35 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.nomaltree.web.dto.Comment;
 import com.nomaltree.web.dto.Notice;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 @Mapper
 public interface NoticeMapper {
 
+	@Data
+	@AllArgsConstructor
+	public class Order {
+		int value;
+		String label;
+	}
+
+	Order[] orders = new Order[] {
+			new Order(0, "정렬 순서"),
+			new Order(1, "최신 순"),
+			new Order(2, "조회수 순"),
+			new Order(3, "댓글 순")
+	};
+
 	//최신 게시글 10개 불러오기 메소드
-	@Select("SELECT n.id ,n.title, n.regdate, n.hit, n.comment, u.nickname "
+	@Select("SELECT n.id, n.title, n.regdate, n.hit, n.comment, u.nickname "
 			+ "FROM notice n LEFT JOIN user u on n.writerId=u.id "
 			+ "order by regdate desc "
 			+ "limit 10")
@@ -25,9 +43,13 @@ public interface NoticeMapper {
 	@Select("SELECT sl.id ,sl.title, sl.regdate, sl.hit, sl.comment, u.nickname "
 			+ "FROM ${board}listview sl LEFT JOIN user u on sl.writerId=u.id "
 			+ "where ${keyword} like '%${query}%' "
-			+ "order by regdate desc "
-			+ "limit ${firstRecordIndex}, ${sz}")
-	List<Notice> searchNotice(String keyword, String query, String board, int firstRecordIndex, int sz);
+			+ "order by "
+			+ "(case when #{order} = 0 then sl.regdate end) desc, "
+			+ "(case when #{order} = 1 then sl.regdate end) desc, "
+			+ "(case when #{order} = 2 then sl.hit end) desc, "
+			+ "(case when #{order} = 3 then sl.comment end) desc "
+			+ "limit #{firstRecordIndex}, #{sz}")
+	List<Notice> searchNotice(@Param("keyword")String keyword, @Param("query")String query, @Param("board")String board, @Param("firstRecordIndex")int firstRecordIndex, @Param("sz")int sz, @Param("order")int order);
 
 	//검색한 게시글 갯수를 구하는 메소드
 	@Select("SELECT count(id) FROM "
@@ -35,14 +57,14 @@ public interface NoticeMapper {
 			+ "FROM ${board}listview sl LEFT JOIN user u on sl.writerId=u.id "
 			+ "where ${keyword} like '%${query}%' "
 			+ "order by regdate desc) searchview")
-	int getSearchCount(String keyword, String query, String board);
+	int getSearchCount(@Param("keyword")String keyword, @Param("query")String query, @Param("board")String board);
 
 	//게시판 목록 불러오기 메소드
 	@Select("SELECT lv.id, lv.title, lv.regdate, lv.hit, lv.comment, u.nickname "
 			+ "FROM ${board}listview lv LEFT JOIN user u on lv.writerId=u.id "
 			+ "order by regdate desc "
-			+ "limit ${firstRecordIndex}, ${sz}")
-	List<Notice> getListView(String board, int firstRecordIndex, int sz);
+			+ "limit #{firstRecordIndex}, #{sz}")
+	List<Notice> getListView(@Param("board")String board, @Param("firstRecordIndex")int firstRecordIndex, @Param("sz")int sz);
 
 	//게시글 갯수를 구하는 메소드
 	@Select("SELECT count(id) FROM ${board}listview")
@@ -81,7 +103,7 @@ public interface NoticeMapper {
 
 	//게시글 수정 정보 불러오기 메소드
 	@Select("SELECT * from notice "
-			+ "where id = ${id}")
+			+ "where id = #{id}")
 	Notice getEditNotice(int id);
 
 	//게시글 수정 메소드

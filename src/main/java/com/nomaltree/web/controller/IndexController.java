@@ -36,7 +36,6 @@ public class IndexController {
 		for(Notice ntc : notice) {
 			String date = simpleDateFormat.format(ntc.getRegdate());
 			ntc.setStrRegDate(date);
-			System.out.println(ntc.getStrRegDate());
 		}
 
 		if(userId != null) {

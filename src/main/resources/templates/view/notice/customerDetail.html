@@ -39,21 +39,21 @@
 					</form>
 				<h1
 					style="font-size: 15px; color: black; font-weight: bold; margin-top: 10px;">댓글</h1>
-					<div class="comment" th:each="cm : ${comments}">
-						<th:block th:if="${cm.id < 0}">
-							<input type="text" name="id" value="${cm.id}">
-							<input type="text" name="noticeId" value="${cm.noticeId}">
-						</th:block>
+					<!-- <form method="post" action="deleteComment">
+					 --><div class="comment" th:each="cm : ${comments}">
 						<h1 th:text="${cm.nickname}"></h1>
-						<h2 th:text="${cm.content}"></h2>
+						<pre th:text="${cm.content}"></pre>
 						<h3 th:text="${cm.regdate}"></h3>
 						<th:block
 							th:if="${user.nickname.equals(cm.nickname) || user.nickname.equals('admin')}">
-							<a th:href="${'deleteComment?id=' + cm.id}"
+							<!-- <input type="hidden" th:text="${cm.id}" name="id" value="commentId">
+							<button type="submit" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
+							 --><a th:href="${'deleteComment?id=' + cm.id}"
 								onclick="return confirm('삭제하시겠습니까?')">삭제</a>
 						</th:block>
 					</div>
-				
+					<!-- </form>
+				 -->
 				<div class="post-comment">
 					<form method="post" th:object="${notice}">
 						<h1 th:text="${user.nickname}"></h1>

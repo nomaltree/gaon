@@ -39,17 +39,23 @@ public class NoticeController {
 	//}
 	//게시글 검색 메소드
 	@GetMapping("search")
-	public String search(Model model, String keyword, String query, HttpSession session, Pagination pagination, HttpServletRequest request) throws ParseException {
+	public String search(Model model, String keyword, String query, HttpSession session, Pagination pagination, HttpServletRequest request) throws ParseException	 {
 		String userId = (String) session.getAttribute("userId");
 		board = (String) session.getAttribute("board");
 		board = new NoticeLogic().board(board);
 		int count = noticeService.searchNoticeCount(keyword, query, board);
 		List<Notice> notices = noticeService.searchNotice(keyword, query, board, pagination);
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
+		pagination.setQuery(query);
+		for(Notice ntc : notices) {
+			String date = simpleDateFormat.format(ntc.getRegdate());
+			ntc.setStrRegDate(date);
+		}
 
 		board = "검색 결과: " + Integer.toString(count) + "건";
 		model.addAttribute("notice", notices);
 		model.addAttribute("board", board);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 			model.addAttribute("user", user);
@@ -71,9 +77,12 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -98,6 +107,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -122,6 +132,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -146,6 +157,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -170,6 +182,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -194,6 +207,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -218,6 +232,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -242,6 +257,7 @@ public class NoticeController {
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
+		model.addAttribute("orders", noticeService.getOrders());
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 
@@ -384,4 +400,12 @@ public class NoticeController {
 		noticeService.deleteComment(id);
 		return "redirect:detail?id=" + comment.getNoticeId();
 	}
+	/*
+	 * @PostMapping(value="deleteComment", params="id=commentId") public String
+	 * deleteCommentPost(int id) { Comment comment =
+	 * noticeService.getCommentById(id);
+	 * noticeService.downComment(comment.getNoticeId());
+	 * noticeService.deleteComment(id); return "redirect:detail?id=" +
+	 * comment.getNoticeId(); }
+	 */
 }

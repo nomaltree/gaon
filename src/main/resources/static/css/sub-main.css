@@ -107,8 +107,10 @@ main .margin-top.first {
 main .intro {
 	font-size:15px;
 	font-weight:bold;
-	margin-bottom:50px;
+	margin-bottom:40px;
+	padding:5px;
 	color:black;
+	line-height:22px;
 }
 main .intro title {
 	font-size:30px;
@@ -130,15 +132,18 @@ main .comment {
 }
 main .comment h1{
 	margin-top:10px;
+	margin-right: 5px;
 	padding:5px;
 	font-size:13px;
 	font-weight:bold;
 	color:black;
 }
-main .comment h2{
+main .comment pre{
+	margin-right: 5px;
 	padding:5px;
 	font-size:12px;
 	color:black;
+	font-weight:bold;
 }
 main .comment h3{
 	padding:5px;

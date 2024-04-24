@@ -1,5 +1,7 @@
 package com.nomaltree.web.model;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +14,21 @@ public class Pagination {
     int sz = 10;       // 페이지 당 레코드 수
     int recordCount;   // 전체 레코드 수
     String url;        // 목록 페이지 url
+    int od = 0; 	   //정렬 기능 변수 초기값은 최신순
+    String query;
 
     public int getFirstRecordIndex() {
         return (pg - 1) * sz;
     }
 
     public String getQueryString() {
-        return String.format("pg=%d", pg);
+    	try {
+			String encQuery = URLEncoder.encode(query, "UTF-8");
+			return String.format("pg=%d&od=%d&query=%s", pg, od, encQuery);
+    	} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+        return String.format("pg=%d&od=%d&query=%s", pg, od, query);
     }
 
     public List<Page> getPages() {

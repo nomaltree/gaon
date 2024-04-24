@@ -84,8 +84,8 @@
 					<div class="margin-top text-align-center">
 						<button class="btn-text btn-default" type="submit" name="cmd"
 							value="수정" onclick="return confirm('수정하시겠습니까?')">수정</button>
-						<a class="btn-text btn-cancel"
-							th:href="${board + 'list?' + pagination.queryString }">취소</a>
+						<a class="btn-text btn-cancel" onclick="return confirm('취소하시겠습니까?')"
+							th:href="${'detail?id=' + notice.id}">취소</a>
 					</div>
 				</form>
 			</main>
