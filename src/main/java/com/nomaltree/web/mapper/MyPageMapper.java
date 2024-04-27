@@ -22,12 +22,14 @@ public interface MyPageMapper {
 
 	//내가 쓴 게시글 불러오기
 	@Select("SELECT * FROM notice "
-			+ "where writerId = #{writerId}")
+			+ "where writerId = #{writerId} "
+			+ "order by regdate desc")
 	List<Notice> getMyNotice(String writerId);
 
 	//내가 쓴 댓글 불러오기
 	@Select("SELECT * FROM comment "
-			+ "where nickname=#{nickname}")
+			+ "where nickname=#{nickname} "
+			+ "order by regdate desc")
 	List<Comment> getMyComment(String nickname);
 
 	//회원닉네임 수정

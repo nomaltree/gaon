@@ -240,6 +240,59 @@ main .search-form input[type="text"] {
 	border: 1px solid #8CBA34;
 }
 
+main .myPage {
+	margin:30px;
+	padding:30px;
+	margin-bottom:0px;
+}
+
+main .Tag button{
+	padding:20px;
+	border: 3px solid #8CBA34;
+	margin:10px;
+	font-size:15px;	
+	color:#8CBA34;
+	font-weight:bold;
+	background-color: white;
+	width:160px;
+	height:120px;
+	line-height:80px;
+	text-align:center;
+}
+main .Tag button:hover {
+	cursor: pointer;
+	background-color: lightgray;
+	text-decoration:underline;
+}
+
+main .account {
+	margin:20px;
+	margin-bottom:0px;
+	padding:20px;
+	
+}
+main .account h2 {
+	padding:10px;
+	font-weight:bold;
+	font-size:13px;
+	color:black;
+	background-color: #8CBA34;
+	width:140px;
+	border-radius:25px;
+	height:35px;
+}
+main .account h3 {
+	padding:5px;
+	font-weight:bold;
+	font-size:11px;
+	color:black;
+
+}
+
+main .account input {
+	margin:10px;
+	margin-bottom:0px;
+}
 /*---< pager style >-----------------------------------------------------------------------------*/
 
 .pager

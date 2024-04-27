@@ -8,6 +8,7 @@ import lombok.Data;
 public class Comment {
 	String content;
 	Date regdate;
+	String strRegDate;
 	int noticeId;
 	String nickname;
 	int id;
