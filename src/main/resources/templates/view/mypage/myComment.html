@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>게시글 작성</title>
+<meta charset="UTF-8">
+
+
+<link href="/css/customer/layout.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+	<!-- header 부분 -->
+	<div th:replace="~{/view/inc/loginHeader::header}"></div>
+	
+	<!-- --------------------------- <nav> --------------------------------------- -->
+	<div th:replace="~{/view/inc/navigation::nav}"></div>
+	
+	<!-- --------------------------- <visual> --------------------------------------- -->
+	<div th:replace="~{/view/inc/visual::visual}"></div>
+	
+	<!-- --------------------------- <body> --------------------------------------- -->
+	<div id="body">
+		<div class="content-container clearfix">
+
+			<!-- --------------------------- aside --------------------------------------- -->
+			<div th:replace="~{/view/inc/aside::aside}"></div>
+			<!-- --------------------------- main --------------------------------------- -->
+			<main class="main" th:fragment="list">
+				<h2 class="main title">내가 쓴 댓글</h2>
+
+				<div class="breadcrumb">
+					<h3 class="hidden">경로</h3>
+					<ul>
+						<li>home</li>
+						<li>마이페이지</li>
+						<li>내가 쓴 댓글</li>
+					</ul>
+				</div>
+				
+				<div class="search-form margin-top first align-right">
+					<h3 class="hidden">공지사항 검색폼</h3>
+					<form action="myPage">
+					<button type="submit" style="background-color:#8CBA34; border-radius:5px; border:none; cursor:pointer; font-size:12px; font-weight:bold;">마이페이지 홈</button>
+					</form>
+				</div>
+								
+				<div class="notice margin-top">
+					<h3 class="hidden">공지사항 목록</h3>
+					<table class="table">
+						<thead class="thead">
+							<tr>
+								<th class="w60">번호</th>
+								<th class="expand">내용</th>
+								<th class="w100">작성일</th>
+								<!-- <th class="w60">조회수</th>
+								<th class="w60">댓글</th> -->
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="mc : ${myComment}">
+								<td th:text="${mc.id}"></td>
+								<td class="title indent text-align-left"><a
+									th:text="${mc.content}" th:href="${ 'detail?id=' + mc.noticeId }"></a></td>
+								<td th:text="${mc.strRegDate}"></td>
+								<!-- <td th:text="${mc.hit}"></td>
+								<td th:text="${mc.comment}"></td> -->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+			</main>
+		</div>
+	</div>
+
+	<!-- ------------------- <footer> --------------------------------------- -->
+	<div th:replace="~{/view/inc/footer::footer}"></div>
+</body>
+
+</html>

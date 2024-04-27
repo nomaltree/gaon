@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>게시글 작성</title>
+<meta charset="UTF-8">
+
+
+<link href="/css/customer/layout.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+	<!-- header 부분 -->
+	<div th:replace="~{/view/inc/loginHeader::header}"></div>
+	
+	<!-- --------------------------- <nav> --------------------------------------- -->
+	<div th:replace="~{/view/inc/navigation::nav}"></div>
+	
+	<!-- --------------------------- <visual> --------------------------------------- -->
+	<div th:replace="~{/view/inc/visual::visual}"></div>
+	
+	<!-- --------------------------- <body> --------------------------------------- -->
+	<div id="body">
+		<div class="content-container clearfix">
+
+			<!-- --------------------------- aside --------------------------------------- -->
+			<div th:replace="~{/view/inc/aside::aside}"></div>
+			<!-- --------------------------- main --------------------------------------- -->
+			<main class="main" th:fragment="list">
+				<h2 class="main title">마이페이지</h2>
+
+				<div class="breadcrumb">
+					<h3 class="hidden">경로</h3>
+					<ul>
+						<li>home</li>
+						<li>마이페이지 홈</li>
+					</ul>
+				</div>
+				<div class="myPage">
+					<div style="display: inline-block">
+						<form action="myNotice" th:object="${user}">
+							<div class="Tag">
+								<button type="submit">내가 쓴 게시글</button>
+							</div>
+						</form>
+						<form action="myComment" th:object="${user}">
+							<div class="Tag">
+								<button type="submit">내가 쓴 댓글</button>
+							</div>
+						</form>
+					</div>
+					<div style="display: inline-block">
+						<form action="myBookmark" th:object="${user}">
+							<div class="Tag">
+								<button type="submit">즐겨찾기</button>
+							</div>
+						</form>
+						<form action="deleteUser" method="post" th:object="${user}">
+							<div class="Tag">
+								<button type="submit" onclick="return confirm('회원 탈퇴하시겠습니까?')">회원
+									탈퇴</button>
+							</div>
+						</form>
+					</div>
+					<form action="#">
+					<div class="account">
+						<h2>닉네임 변경하기</h2>
+						<input type="text" th:value="${user.nickname}" style="margin-bottom:30px;">
+						<button type="submit">확인</button>
+						
+						<h2>비밀번호 변경하기</h2>
+						<h3>현재 비밀번호</h3>
+						<input type="password">
+						<h3>새 비밀번호</h3>
+						<input type="password">
+						<button type="submit">확인</button>
+				   </div>
+				   </form>
+				 </div>
+			</main>
+		</div>
+	</div>
+
+	<!-- ------------------- <footer> --------------------------------------- -->
+	<div th:replace="~{/view/inc/footer::footer}"></div>
+</body>
+
+</html>
