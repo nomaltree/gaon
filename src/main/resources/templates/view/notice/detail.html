@@ -34,7 +34,7 @@
 					<div class="comment" th:each="cm : ${comments}">
 						<h1 th:text="${cm.nickname}"></h1>
 						<pre th:text="${cm.content}"></pre>
-						<h3 th:text="${cm.regdate}"></h3>
+						<h3 th:text="${cm.strRegDate}"></h3>
 					</div>
 				</form>
 

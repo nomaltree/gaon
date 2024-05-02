@@ -29,6 +29,10 @@
 				<div th:replace="~{/view/inc/detailMain::detail}"></div>
 				
 				<form method="post" th:object="${notice}">
+				<div style="margin-left:600px; margin-bottom:50px;">
+				<button th:if="${hasBookmark == null || hasBookmark == ''}" type="submit" name="cmd" value="즐찾등록" onclick="return confirm('즐겨찾기 등록하시겠습니까?')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 추가</button>
+				<button th:if="${hasBookmark != null && hasBookmark != ''}"type="submit" name="cmd" value="즐찾해제" onclick="return confirm('즐겨찾기 해제하시겠습니까?')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 해제</button>
+				</div>
 				<div class="margin-top text-align-center">
 					<a class="btn-text btn-default"
 						th:if="${user.nickname.equals(notice.nickname)}"
@@ -43,7 +47,7 @@
 					 --><div class="comment" th:each="cm : ${comments}">
 						<h1 th:text="${cm.nickname}"></h1>
 						<pre th:text="${cm.content}"></pre>
-						<h3 th:text="${cm.regdate}"></h3>
+						<h3 th:text="${cm.strRegDate}"></h3>
 						<th:block
 							th:if="${user.nickname.equals(cm.nickname) || user.nickname.equals('admin')}">
 							<!-- <input type="hidden" th:text="${cm.id}" name="id" value="commentId">

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>게시글 작성</title>
+<title>즐겨찾기</title>
 <meta charset="UTF-8">
 
 
@@ -38,6 +38,44 @@
 					</ul>
 				</div>
 				
+				<div class="search-form margin-top first align-right">
+					<h3 class="hidden">공지사항 검색폼</h3>
+					<form action="myPage">
+					<button type="submit" style="color: white;background-color:#8CBA34; border-radius:5px; border:none; cursor:pointer; font-size:12px; font-weight:bold;">마이페이지 홈</button>
+					</form>
+				</div>
+				
+				<form>
+				<div class="notice margin-top">
+					<h3 class="hidden">공지사항 목록</h3>
+					<table class="table">
+						<thead class="thead">
+							<tr>
+								<th class="w60">번호</th>
+								<th class="expand">제목</th>
+								<th class="w100">작성자</th>
+								<th class="w100">등록일</th>
+								<th class="w60">조회수</th>
+								<th class="w60">댓글</th>
+								<th class="w60">즐겨찾기</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr th:each="mbm : ${myBookmark}">
+								<td th:text="${mbm.id}"></td>
+								<td class="title indent text-align-left"><a
+									th:text="${mbm.title}" th:href="${ 'detail?id=' + mbm.id }"></a></td>
+								<td th:text="${mbm.nickname}"></td>
+								<td th:text="${mbm.strRegDate}"></td>
+								<td th:text="${mbm.hit}"></td>
+								<td th:text="${mbm.comment}"></td>
+								<td><a th:href="${'deleteBookmark?id=' + mbm.id}" onclick="return confirm('즐겨찾기 해제하시겠습니까?')" style="font-weight:bold; padding:4px;font-size:11px; background-color:#8CBA34; border: 1px solid #8CBA34; border-radius:5px; cursor:pointer; color:white;">해제</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</form>
 			</main>
 		</div>
 	</div>

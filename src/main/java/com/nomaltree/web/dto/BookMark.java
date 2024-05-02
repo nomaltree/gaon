@@ -10,10 +10,11 @@ public class BookMark {
 	int noticeId;
 	String userId;
 	Date regdate;
+	String strRegDate;
 
 
 
-	int id;
+	int id;	//게시글 번호로 noticeId와 중복
 	String title;
 	String nickname;
 	int hit;

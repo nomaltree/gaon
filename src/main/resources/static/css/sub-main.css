@@ -270,18 +270,23 @@ main .account {
 	margin-bottom:0px;
 	padding:20px;
 	
+	
 }
 main .account h2 {
-	padding:10px;
+	margin-bottom:10px;
+	line-height:25px;
+	text-align:center;
+	padding:5px;
 	font-weight:bold;
 	font-size:13px;
-	color:black;
+	color:white;
 	background-color: #8CBA34;
 	width:140px;
-	border-radius:25px;
+	border-radius:10px;
 	height:35px;
 }
 main .account h3 {
+	margin-left:5px;
 	padding:5px;
 	font-weight:bold;
 	font-size:11px;
@@ -292,6 +297,15 @@ main .account h3 {
 main .account input {
 	margin:10px;
 	margin-bottom:0px;
+}
+
+main .account button {
+	background-color:#8CBA34;
+	color:white;
+	border: 1px solid #8CBA34;
+	border-radius:5px;
+	font-weight:bold;
+	font-size:12px;	
 }
 /*---< pager style >-----------------------------------------------------------------------------*/
 

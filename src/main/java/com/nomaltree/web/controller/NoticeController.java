@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nomaltree.web.dto.BookMark;
 import com.nomaltree.web.dto.Comment;
 import com.nomaltree.web.dto.Notice;
 import com.nomaltree.web.dto.User;
 import com.nomaltree.web.logic.NoticeLogic;
 import com.nomaltree.web.model.Pagination;
+import com.nomaltree.web.service.MyPageService;
 import com.nomaltree.web.service.NoticeService;
 import com.nomaltree.web.service.UserService;
 
@@ -29,6 +31,7 @@ public class NoticeController {
 
 	@Autowired NoticeService noticeService;
 	@Autowired UserService userService;
+	@Autowired MyPageService myPageService;
 
 	String board; //게시판 종류를 저장할 멤버 변수
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss"); //날짜 포맷을 변경할 멤버 변수
@@ -274,15 +277,25 @@ public class NoticeController {
 		Notice notice = noticeService.getDetailView(id);
 		noticeService.upHit(id);
 		List<Comment> comments = noticeService.getComment(id);
+		for(Comment cmt : comments) {
+			String date = simpleDateFormat.format(cmt.getRegdate());
+			cmt.setStrRegDate(date);
+		}
+		String date = simpleDateFormat.format(notice.getRegdate());
+		notice.setStrRegDate(date);
+
 		String userId = (String) session.getAttribute("userId");
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		board = notice.getBoard();
+		BookMark hasBookmark = myPageService.hasBookmark(id, userId);
+
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 			model.addAttribute("notice", notice);
 			model.addAttribute("comments", comments);
 			model.addAttribute("user", user);
 			model.addAttribute("board", board);
+			model.addAttribute("hasBookmark", hasBookmark);
 			return "view/notice/customerDetail";
 		}
 		else {
@@ -290,6 +303,7 @@ public class NoticeController {
 			model.addAttribute("notice", notice);
 			model.addAttribute("comments", comments);
 			model.addAttribute("board", board);
+			model.addAttribute("hasBookmark", hasBookmark);
 			return "view/notice/detail";
 		}
 

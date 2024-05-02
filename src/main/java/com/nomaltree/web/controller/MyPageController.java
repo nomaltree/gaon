@@ -89,6 +89,10 @@ public class MyPageController {
 		if(userId != null) {
 			User user = userService.getUserById(userId);
 			List<BookMark> myBookmark = myPageService.getMyBookMark(user.getId());
+			for(BookMark mbm : myBookmark) {
+				String date = simpleDateFormat.format(mbm.getRegdate());
+				mbm.setStrRegDate(date);
+			}
 			model.addAttribute("myBookmark", myBookmark);
 			model.addAttribute("user", user);
 			return "view/mypage/myBookmark";
@@ -97,6 +101,28 @@ public class MyPageController {
 			return "view/home/index";
 		}
 	}
+	//즐겨찾기 등록 메소드
+	@PostMapping(value="detail", params="cmd=즐찾등록")
+	public String insertBookmark(Notice notice, HttpSession session) {
+		String userId = (String) session.getAttribute("userId");
+		myPageService.insertBookmark(notice.getId(), userId);
+		return "redirect:detail?id=" + notice.getId();
+	}
+	//즐겨찾기 해제 메소드
+	@PostMapping(value="detail", params="cmd=즐찾해제")
+	public String deleteBookmark(Notice notice, HttpSession session) {
+		String userId = (String) session.getAttribute("userId");
+		myPageService.deleteBookmark(notice.getId(), userId);
+		return "redirect:detail?id=" + notice.getId();
+	}
+
+	//즐겨찾기 페이지에서 진행하는 즐겨찾기 해제 메소드
+	@GetMapping("deleteBookmark")
+	public String deleteBookmarkPage(int id, HttpSession session) {
+		String userId = (String) session.getAttribute("userId");
+		myPageService.deleteBookmark(id, userId);
+		return "redirect:myBookmark";
+		}
 
 	//회원탈퇴 메소드
 	@PostMapping("deleteUser")
@@ -109,5 +135,18 @@ public class MyPageController {
 			return "redirect:index";
 		}
 		return "redirect:index";
+	}
+
+	//닉네임 변경 메소드
+	@PostMapping("changeNickname")
+	public String changeNickname() { //구현해야됨
+		return "redirect:myPage";
+	}
+
+	//비밀번호 변경 메소드
+	@PostMapping("changePwd")
+	public String changePwd(HttpSession session) { //구현해야됨
+		session.invalidate();
+		return "redirect:login";
 	}
 }
