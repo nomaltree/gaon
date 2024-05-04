@@ -30,14 +30,14 @@
 				
 				<form method="post" th:object="${notice}">
 				<div style="margin-left:600px; margin-bottom:50px;">
-				<button th:if="${hasBookmark == null || hasBookmark == ''}" type="submit" name="cmd" value="즐찾등록" onclick="return confirm('즐겨찾기 등록하시겠습니까?')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 추가</button>
-				<button th:if="${hasBookmark != null && hasBookmark != ''}"type="submit" name="cmd" value="즐찾해제" onclick="return confirm('즐겨찾기 해제하시겠습니까?')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 해제</button>
+				<button th:if="${hasBookmark == null || hasBookmark == ''}" type="submit" name="cmd" value="즐찾등록" onclick="return alert('즐겨찾기 등록되었습니다')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 추가</button>
+				<button th:if="${hasBookmark != null && hasBookmark != ''}"type="submit" name="cmd" value="즐찾해제" onclick="return alert('즐겨찾기 해제되었습니다')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 해제</button>
 				</div>
 				<div class="margin-top text-align-center">
 					<a class="btn-text btn-default"
 						th:if="${user.nickname.equals(notice.nickname)}"
 						th:href="${ 'edit?id=' + notice.id }">수정</a>
-					<button type="submit" class="btn-text btn-default" name="cmd"
+					<button type="submit" class="btn-text btn-default" name="cmd" 
 						value="삭제" th:if="${user.nickname.equals(notice.nickname) || user.nickname.equals('admin')}" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
 					</div>
 					</form>

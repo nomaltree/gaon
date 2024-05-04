@@ -49,7 +49,7 @@
 			
 			<tbody>
 				<tr th:each="nt : ${notice}">
-					<td th:text="${nt.id}"></td>
+					<td>*</td>
 					<td class="title indent text-align-left"><a
 						th:text="${nt.title}" th:href="${ 'detail?id=' + nt.id }"></a></td>
 					<td th:text="${nt.nickname}"></td>

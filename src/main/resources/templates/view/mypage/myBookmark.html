@@ -63,7 +63,7 @@
 						
 						<tbody>
 							<tr th:each="mbm : ${myBookmark}">
-								<td th:text="${mbm.id}"></td>
+								<td>*</td>
 								<td class="title indent text-align-left"><a
 									th:text="${mbm.title}" th:href="${ 'detail?id=' + mbm.id }"></a></td>
 								<td th:text="${mbm.nickname}"></td>

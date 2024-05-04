@@ -60,7 +60,7 @@
 
 						<tbody>
 							<tr th:each="mn : ${myNotice}">
-								<td th:text="${mn.id}"></td>
+								<td>*</td>
 								<td class="title indent text-align-left"><a
 									th:text="${mn.title}" th:href="${ 'detail?id=' + mn.id }"></a></td>
 								<td th:text="${mn.strRegDate}"></td>

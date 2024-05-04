@@ -26,13 +26,14 @@ public class IndexController {
 
 	@Autowired UserService userService;
 	@Autowired NoticeService noticeService;
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+
 
 	//홈화면 Get요청
 	@GetMapping("index")
 	public String index(Model model, HttpSession session) {
 		String userId = (String) session.getAttribute("userId");
 		List<Notice> notice = noticeService.getNewestList();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 		for(Notice ntc : notice) {
 			String date = simpleDateFormat.format(ntc.getRegdate());
 			ntc.setStrRegDate(date);

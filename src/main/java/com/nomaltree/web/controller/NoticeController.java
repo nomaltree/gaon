@@ -1,16 +1,23 @@
 package com.nomaltree.web.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriUtils;
 
 import com.nomaltree.web.dto.BookMark;
 import com.nomaltree.web.dto.Comment;
@@ -384,6 +391,17 @@ public class NoticeController {
 			return "redirect:" + board + "list?" + pagination.getQueryString();
 		}
 
+	}
+	//파일 다운로드 메소드
+	@GetMapping("download")
+	public ResponseEntity<Object> download(String file) throws MalformedURLException {
+		UrlResource resource = new UrlResource("file:" + System.getProperty("user.home") + "\\GaonDummyData" + "\\" + file);
+		String encodedFileName = UriUtils.encode(file, StandardCharsets.UTF_8);
+		String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
+								.header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+								.body(resource);
 	}
 	//댓글 등록 메소드
 	@PostMapping(value="detail", params="cmd=댓글")

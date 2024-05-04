@@ -24,6 +24,7 @@
 					<th class="expand">제목</th>
 					<th class="w100">작성자</th>
 					<th class="w100">작성일</th>
+					<th class="w60">게시판</th>
 					<th class="w60">조회수</th>
 					<th class="w60">댓글</th>
 				</tr>
@@ -31,11 +32,12 @@
 			<tbody>
 
 				<tr th:each="nt : ${notice}">
-					<td th:text="${nt.id}"></td>
+					<td>*</td>
 					<td class="title indent text-align-left"><a
 						th:text="${nt.title}" th:href="${ 'detail?id=' + nt.id }"></a></td>
 					<td th:text="${nt.nickname}"></td>
 					<td th:text="${nt.strRegDate}"></td>
+					<td th:text="${nt.board}"></td>
 					<td th:text="${nt.hit}"></td>
 					<td th:text="${nt.comment}"></td>
 				</tr>

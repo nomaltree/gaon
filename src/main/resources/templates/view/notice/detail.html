@@ -28,6 +28,12 @@
 			<!-- --------------------------- main --------------------------------------- -->
 			<main>
 				<div th:replace="~{/view/inc/detailMain::detail}"></div>
+				
+				<div style="margin-left:600px; margin-bottom:50px;">
+				<button th:if="${hasBookmark == null || hasBookmark == ''}" type="submit" name="cmd" value="즐찾등록" onclick="return alert('로그인 후 이용해 주세요')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 추가</button>
+				<button th:if="${hasBookmark != null && hasBookmark != ''}"type="submit" name="cmd" value="즐찾해제" onclick="return alert('즐겨찾기 해제되었습니다')" style="font-size:10px; background-color:#8CBA34; color:white; font-weight:bold; cursor:pointer; border:1px solid #8CBA34; border-radius:5px;">즐겨찾기 해제</button>
+				</div>
+				
 				<h1
 					style="font-size: 15px; color: black; font-weight: bold; margin-top: 10px;">댓글</h1>
 				<form method="post">

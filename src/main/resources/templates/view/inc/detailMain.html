@@ -18,10 +18,6 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<th>게시글 번호</th>
-						<td th:text="*{id}"></td>
-					</tr>
-					<tr>
 						<th>제목</th>
 						<td class="text-align-left text-indent text-strong text-orange"
 							colspan="3" th:text="*{title}"></td>
@@ -44,7 +40,7 @@
 					</tr>
 					<tr>
 						<th>첨부파일</th>
-						<td colspan="3" th:text="*{file}"></td>
+						<td colspan="3"><a th:href="${'download?file=' + notice.file}" th:text="*{file}"></a></td>
 					</tr>
 				</tbody>
 			</table>

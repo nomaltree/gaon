@@ -60,7 +60,7 @@
 
 						<tbody>
 							<tr th:each="mc : ${myComment}">
-								<td th:text="${mc.id}"></td>
+								<td>*</td>
 								<td class="title indent text-align-left"><a
 									th:text="${mc.content}" th:href="${ 'detail?id=' + mc.noticeId }"></a></td>
 								<td th:text="${mc.strRegDate}"></td>

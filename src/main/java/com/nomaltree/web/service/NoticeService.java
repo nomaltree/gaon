@@ -3,6 +3,7 @@ package com.nomaltree.web.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,8 @@ public class NoticeService {
 		if(notice.getFiles().getOriginalFilename() != null && notice.getFiles().getOriginalFilename() != "") {
 		MultipartFile files = notice.getFiles();
 		notice.setFile(files.getOriginalFilename());
+		String uid = UUID.randomUUID().toString();
+		System.out.println(uid);
 		String savePath = System.getProperty("user.home") + "\\GaonDummyData";
 		if(!new File(savePath).exists()) {
 			try {

@@ -15,7 +15,7 @@ public class Pagination {
     int recordCount;   // 전체 레코드 수
     String url;        // 목록 페이지 url
     int od = 0; 	   //정렬 기능 변수 초기값은 최신순
-    String query;
+    String query = "";
 
     public int getFirstRecordIndex() {
         return (pg - 1) * sz;

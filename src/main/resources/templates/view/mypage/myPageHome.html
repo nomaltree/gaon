@@ -67,15 +67,15 @@
 						<div style="margin-bottom:20px;">
 						<h2>닉네임 변경하기</h2>
 						<h3>변경할 닉네임</h3>
-						<input type="text" th:value="${user.nickname}" style="margin-bottom:30px;">
+						<input type="text" th:value="${user.nickname}" name="nickname" style="margin-bottom:30px;">
 						<button type="submit" onclick="return confirm('변경하시겠습니까?')">변경 하기</button>
 						</div>
 						<div>
 						<h2>비밀번호 변경하기</h2>
 						<h3>현재 비밀번호</h3>
-						<input type="password">
+						<input type="password" name="prepwd">
 						<h3>새 비밀번호</h3>
-						<input type="password">
+						<input type="password" name="newpwd">
 						<button type="submit" onclick="return confirm('변경하시겠습니까?')">변경 하기</button>
 						</div>
 				   </div>

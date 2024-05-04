@@ -33,7 +33,7 @@ public interface NoticeMapper {
 	};
 
 	//최신 게시글 10개 불러오기 메소드
-	@Select("SELECT n.id, n.title, n.regdate, n.hit, n.comment, u.nickname "
+	@Select("SELECT n.id, n.title, n.regdate, n.board, n.hit, n.comment, u.nickname "
 			+ "FROM notice n LEFT JOIN user u on n.writerId=u.id "
 			+ "order by regdate desc "
 			+ "limit 10")
