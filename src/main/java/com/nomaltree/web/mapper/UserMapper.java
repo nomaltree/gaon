@@ -33,4 +33,9 @@ public interface UserMapper {
 	@Select("SELECT * FROM user "
 			+ "where id = #{id}")
 	User getUserByid(String id);
+
+	//특정 nickname을 가진 유저정보 검색메소드
+	@Select("SELECT * FROM user "
+			+ "where nickname = #{nickname}")
+	User getUserBynickname(String nickname);
 }

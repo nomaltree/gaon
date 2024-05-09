@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,13 @@ import com.nomaltree.web.dto.BookMark;
 import com.nomaltree.web.dto.Comment;
 import com.nomaltree.web.dto.Notice;
 import com.nomaltree.web.dto.User;
+import com.nomaltree.web.model.UserNickname;
+import com.nomaltree.web.model.UserPassword;
 import com.nomaltree.web.service.MyPageService;
 import com.nomaltree.web.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("gaon")
@@ -25,16 +29,21 @@ public class MyPageController {
 
 	@Autowired MyPageService myPageService;
 	@Autowired UserService userService;
-
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss"); //날짜 포맷을 변경할 멤버 변수
 
 	//마이페이지 홈 화면 불러오기 메소드
 	@GetMapping("myPage")
 	public String myPage(HttpSession session, Model model) {
 		String userId = (String) session.getAttribute("userId");
+		UserNickname userNickname = new UserNickname();
+		UserPassword userPassword = new UserPassword();
 		if(userId != null) {
 			User user = userService.getUserById(userId);
+			userNickname.setNickname(user.getNickname());
+			userPassword.setPrePwd(user.getPassword());
 			model.addAttribute("user", user);
+			model.addAttribute("userNickname", userNickname);
+			model.addAttribute("userPassword", userPassword);
 			return "view/mypage/myPageHome";
 		}
 		else {
@@ -139,14 +148,40 @@ public class MyPageController {
 
 	//닉네임 변경 메소드
 	@PostMapping("changeNickname")
-	public String changeNickname() { //구현해야됨
-		return "redirect:myPage";
+	public String changeNickname(Model model, HttpSession session, @Valid UserNickname userNickname, BindingResult bindingResult) {
+		UserPassword userPassword = new UserPassword();
+		try {
+			String id = (String) session.getAttribute("userId");
+			myPageService.editId(userNickname, bindingResult, id);
+			return "redirect:myPage";
+		} catch (Exception e) {
+			e.printStackTrace();
+			bindingResult.rejectValue("", null, "변경할 수 없습니다.");
+			User user = userService.getUserById((String) session.getAttribute("userId"));
+			userPassword.setPrePwd(user.getPassword());
+			model.addAttribute("user", user);
+			model.addAttribute("userPassword", userPassword);
+			return "view/mypage/myPageHome";
+		}
 	}
 
 	//비밀번호 변경 메소드
 	@PostMapping("changePwd")
-	public String changePwd(HttpSession session) { //구현해야됨
-		session.invalidate();
-		return "redirect:login";
+	public String changePwd(Model model, HttpSession session, @Valid UserPassword userPassword, BindingResult bindingResult) { //구현해야됨
+		UserNickname userNickname = new UserNickname();
+		try {
+			String id = (String) session.getAttribute("userId");
+			myPageService.editPwd(userPassword, bindingResult, id);
+			session.invalidate();
+			return "redirect:login";
+		} catch (Exception e) {
+			e.printStackTrace();
+			bindingResult.rejectValue("", null, "변경할 수 없습니다.");
+			User user = userService.getUserById((String) session.getAttribute("userId"));
+			userNickname.setNickname(user.getNickname());
+			model.addAttribute("user", user);
+			model.addAttribute("userNickname", userNickname);
+			return "view/mypage/myPageHome";
+		}
 	}
 }

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nomaltree.web.dto.Notice;
 import com.nomaltree.web.dto.User;
-import com.nomaltree.web.model.UserLoginSignup;
+import com.nomaltree.web.model.UserLogin;
+import com.nomaltree.web.model.UserSignUp;
 import com.nomaltree.web.service.NoticeService;
 import com.nomaltree.web.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("gaon")
@@ -54,17 +55,23 @@ public class IndexController {
 	//로그인화면 Get요청
 	@GetMapping("login")
 	public String login(Model model, HttpSession session) {
-		User user = new User();
-		model.addAttribute("user", user);
+		UserLogin userLogin = new UserLogin();
+		model.addAttribute("userLogin", userLogin);
 		return "view/home/login";
 	}
 	//로그인 Post요청
 	@PostMapping("login")
-	public String login(User user, HttpSession session, BindingResult bindingResult) {
-		String userId = userService.login(user.getId(), user.getPassword());
-		session.setMaxInactiveInterval(60*60*8);
-		session.setAttribute("userId", userId);
-		return "redirect:index";
+	public String login(HttpSession session, @Valid UserLogin userLogin, BindingResult bindingResult){
+		try {
+			String userId = userService.login(userLogin, bindingResult);
+			session.setMaxInactiveInterval(60*60*8);
+			session.setAttribute("userId", userId);
+			return "redirect:index";
+		} catch (Exception e) {
+			e.printStackTrace();
+			bindingResult.rejectValue("", null, "로그인 할 수 없습니다.");
+			return "view/home/login";
+		}
 	}
 	//로그아웃 Request요청
 	@RequestMapping("logout")
@@ -74,23 +81,22 @@ public class IndexController {
 	}
 	//회원가입화면 Get요청
 	@GetMapping("signup")
-	public String toSignupPage(Model model) {
-		UserLoginSignup user = new UserLoginSignup();
-		model.addAttribute("user", user);
+	public String Signup(Model model) {
+		UserSignUp userSignUp = new UserSignUp();
+		model.addAttribute("userSignUp", userSignUp);
 		return "view/home/signup";
 	}
 	//회원가입 Post요청
 	@PostMapping("signup")
-	public String signup(User user) {
+	public String signup(Model model, @Valid UserSignUp userSignUp, BindingResult bindingResult) {
 		try {
-			userService.signup(user);
-		} catch (DuplicateKeyException e) {
-			return "redriect:/signup?error_code=-1";
-		} catch (Exception e) {
+			userService.signup(userSignUp, bindingResult);
+			return "redirect:login";
+		}catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/signup?error_code=-99";
+			bindingResult.rejectValue("", null, "등록할 수 없습니다.");
+			return "view/home/signup";
 		}
-		return "view/home/login";
 	}
 	//로그인 후 사용자 전용화면 Get요청
 	@GetMapping("customerIndex")

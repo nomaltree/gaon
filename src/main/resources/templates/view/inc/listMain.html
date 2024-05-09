@@ -62,7 +62,7 @@
 	</div>
 	
 	<div class="text-align-right margin-top">
-		<a class="btn-text btn-default" href="reg">글쓰기</a>
+		<a class="btn-text btn-default" th:href="${'reg?' + pagination.getQueryString}">글쓰기</a>
 	</div>
 	<div th:replace="~{/view/inc/pager::pagination}"></div>
 </main>

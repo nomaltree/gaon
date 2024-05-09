@@ -14,12 +14,11 @@
     <div class="container">
     <div class="login form">
       <header>로그인</header>
-      <form action="login" method="post" th:object="${user}">
+      <form action="login" method="post" th:object="${userLogin}">
         <input type="text" th:field="*{id}" placeholder="아이디를 입력하세요">
         <div class="error" th:errors="*{id}"></div>
         <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요">
         <div class="error"  th:errors="*{password}"></div>
-        <!-- <a href="#">Forgot password?</a> -->
         <input type="submit" class="button" value="로그인">
       </form>
       <div class="signup">
