@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nomaltree.web.dto.Comment;
@@ -14,6 +15,7 @@ import com.nomaltree.web.dto.Notice;
 import com.nomaltree.web.logic.NoticeLogic;
 import com.nomaltree.web.mapper.NoticeMapper;
 import com.nomaltree.web.mapper.NoticeMapper.Order;
+import com.nomaltree.web.model.NoticeReg;
 import com.nomaltree.web.model.Pagination;
 
 @Service
@@ -39,6 +41,9 @@ public class NoticeService {
 	//게시글 검색 메소드
 	public List<Notice> searchNotice(String keyword, String query, String board, Pagination pagination) {
 		pagination.setRecordCount(noticeMapper.getSearchCount(keyword, query, board));
+		if(!(query.equals("") || query.equals(" "))) { //검색어를 공백으로 입력하지 않은 경우
+			query = "%" + query + "%";
+		}
 		List<Notice> notice = noticeMapper.searchNotice(keyword, query, board, pagination.getFirstRecordIndex(), pagination.getSz(), pagination.getOd());
 		return notice;
 	}
@@ -57,15 +62,23 @@ public class NoticeService {
 		noticeMapper.upHit(id);
 	}
 	//게시글 저장 메소드
-	public String insertNotice(Notice notice, Pagination pagination) throws IllegalStateException, IOException {
+	public String insertNotice(NoticeReg noticeReg, BindingResult bindingResult, Pagination pagination) throws Exception {
 		String board;
-		board = new NoticeLogic().board(notice.getBoard());
+		board = new NoticeLogic().board(noticeReg.getBoard());
+		if(bindingResult.hasErrors()) {
+			throw new Exception("게시글을 등록할 수 없습니다.");
+		}
+		if(noticeReg.getBoard().equals("미정")) {
+			bindingResult.rejectValue("board", null, "게시판을 선택해 주세요.");
+			throw new Exception("게시판을 선택해 주세요.");
+		}
+
 		//int lastPage = (int)Math.ceil((double)noticeMapper.getCount(board) / pagination.getSz());
         pagination.setPg(1);
 		//파일 업로드 구현 로직
-		if(notice.getFiles().getOriginalFilename() != null && notice.getFiles().getOriginalFilename() != "") {
-		MultipartFile files = notice.getFiles();
-		notice.setFile(files.getOriginalFilename());
+		if(noticeReg.getFiles().getOriginalFilename() != null && noticeReg.getFiles().getOriginalFilename() != "") {
+		MultipartFile files = noticeReg.getFiles();
+		noticeReg.setFile(files.getOriginalFilename());
 		String uid = UUID.randomUUID().toString();
 		System.out.println(uid);
 		String savePath = System.getProperty("user.home") + "\\GaonDummyData";
@@ -76,12 +89,12 @@ public class NoticeService {
 				e.getStackTrace();
 			}
 		}
-		String filePath = savePath + "\\" + notice.getFile();
+		String filePath = savePath + "\\" + noticeReg.getFile();
 		files.transferTo(new File(filePath));
 		}
 		//작성한 글의 해당 게시판으로 이동할 수 있게 하는 로직
-		board = new NoticeLogic().board(notice.getBoard());
-		noticeMapper.insertNotice(notice);
+		board = new NoticeLogic().board(noticeReg.getBoard());
+		noticeMapper.insertNotice(noticeReg);
 		return board;
 	}
 	//게시글 수정 정보 불러오기 메소드

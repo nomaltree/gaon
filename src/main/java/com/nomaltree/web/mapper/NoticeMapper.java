@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.nomaltree.web.dto.Comment;
 import com.nomaltree.web.dto.Notice;
+import com.nomaltree.web.model.NoticeReg;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,7 +43,7 @@ public interface NoticeMapper {
 	//게시글 검색 메소드
 	@Select("SELECT sl.id ,sl.title, sl.regdate, sl.hit, sl.comment, u.nickname "
 			+ "FROM ${board}listview sl LEFT JOIN user u on sl.writerId=u.id "
-			+ "where ${keyword} like '%${query}%' "
+			+ "where ${keyword} like '${query}' "
 			+ "order by "
 			+ "(case when #{order} = 0 then sl.regdate end) desc, "
 			+ "(case when #{order} = 1 then sl.regdate end) desc, "
@@ -99,7 +100,7 @@ public interface NoticeMapper {
 			+ "#{file}, "
 			+ "#{writerId} "
 			+ ")")
-	void insertNotice(Notice notice);
+	void insertNotice(NoticeReg noticeReg);
 
 	//게시글 수정 정보 불러오기 메소드
 	@Select("SELECT * from notice "

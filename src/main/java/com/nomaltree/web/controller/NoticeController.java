@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import com.nomaltree.web.dto.Comment;
 import com.nomaltree.web.dto.Notice;
 import com.nomaltree.web.dto.User;
 import com.nomaltree.web.logic.NoticeLogic;
+import com.nomaltree.web.model.NoticeReg;
 import com.nomaltree.web.model.Pagination;
 import com.nomaltree.web.service.MyPageService;
 import com.nomaltree.web.service.NoticeService;
@@ -31,6 +33,7 @@ import com.nomaltree.web.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("gaon")
@@ -46,10 +49,6 @@ public class NoticeController {
 	String board; // 게시판 종류를 저장할 멤버 변수
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss"); // 날짜 포맷을 변경할 멤버 변수
 
-	// @GetMapping("list")
-	// public String list() {
-	// return "view/dummydata/notice/list";
-	// }
 	// 게시글 검색 메소드
 	@GetMapping("search")
 	public String search(Model model, String keyword, String query, HttpSession session, Pagination pagination,
@@ -66,7 +65,7 @@ public class NoticeController {
 			ntc.setStrRegDate(date);
 		}
 
-		board = "검색 결과: " + Integer.toString(count) + "건";
+		board = "'" + query + "' " + "검색 결과: " + Integer.toString(count) + "건";
 		model.addAttribute("notice", notices);
 		model.addAttribute("board", board);
 		model.addAttribute("orders", noticeService.getOrders());
@@ -118,6 +117,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -143,6 +144,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -168,6 +171,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -193,6 +198,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -218,6 +225,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -243,6 +252,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -268,6 +279,8 @@ public class NoticeController {
 		}
 		pagination.setUrl(request.getRequestURL().toString() + "?" + request.getQueryString());
 		String userId = (String) session.getAttribute("userId");
+		String engBoard = new NoticeLogic().board(board);
+		model.addAttribute("engBoard", engBoard);
 		session.setAttribute("board", board);
 		model.addAttribute("board", board + " 게시판");
 		model.addAttribute("notice", notice);
@@ -324,15 +337,14 @@ public class NoticeController {
 	public String reg(Model model, HttpSession session, Pagination pagination) {
 		String userId = (String) session.getAttribute("userId");
 		String board = (String) session.getAttribute("board");
-		System.out.println(pagination.getPg());
 		board = new NoticeLogic().board(board);
 		if (userId != null) {
 			User user = userService.getUserById(userId);
-			Notice notice = new Notice();
+			NoticeReg noticeReg = new NoticeReg();
 
 			model.addAttribute("board", board);
 			model.addAttribute("user", user);
-			model.addAttribute("notice", notice);
+			model.addAttribute("noticeReg", noticeReg);
 			return "view/notice/reg";
 		} else {
 
@@ -343,15 +355,22 @@ public class NoticeController {
 
 	// 게시글 등록 호출 메소드
 	@PostMapping("reg")
-	public String reg(Model model, Notice notice, HttpSession session, Pagination pagination)
+	public String reg(@Valid NoticeReg noticeReg, BindingResult bindingResult, Model model, HttpSession session, Pagination pagination)
 			throws IllegalStateException, IOException {
 		String userId = (String) session.getAttribute("userId");
-		notice.setWriterId(userId);
-		board = noticeService.insertNotice(notice, pagination);
-		if (!board.equals("미정")) {
+		String board = (String) session.getAttribute("board");
+		board = new NoticeLogic().board(board);
+		noticeReg.setWriterId(userId);
+		try {
+			board = noticeService.insertNotice(noticeReg, bindingResult, pagination);
 			return "redirect:" + board + "list?" + pagination.getQueryString();
-		} else {
-			return "redirect:reg";
+		} catch (Exception e) {
+			e.printStackTrace();
+			User user = userService.getUserById(userId);
+
+			model.addAttribute("board", board);
+			model.addAttribute("user", user);
+			return "view/notice/reg";
 		}
 	}
 

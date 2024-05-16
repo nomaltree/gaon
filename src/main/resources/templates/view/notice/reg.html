@@ -39,7 +39,7 @@
 				</div>
 
 				<form action="reg" method="post" enctype="multipart/form-data"
-					th:object="${notice}">
+					th:object="${noticeReg}">
 					<div class="margin-top first">
 						<h3 class="hidden">공지사항 입력</h3>
 						<table class="table">
@@ -47,12 +47,16 @@
 								<tr>
 									<th>제목</th>
 									<td class="text-align-left text-indent text-strong text-orange"
-										colspan="3"><input type="text" th:field="*{title}" /></td>
+										colspan="3"><input type="text" th:field="*{title}" />
+									<p th:errors="*{title}"></p>	
+									</td>
+										
 								</tr>
 								<tr>
 									<th>게시판</th>
 									<td class="text-align-left text-indent text-strong text-orange"
-										colspan="3"><select th:field="*{board}">
+										colspan="3">
+									<select th:field="*{board}">
 											<option value="미정" selected>게시판을 선택해 주세요</option>
 											<option value="자유">자유</option>
 											<option value="장터">장터</option>
@@ -62,7 +66,9 @@
 											<option value="건반">건반</option>
 											<option value="드럼">드럼</option>
 											<option value="보컬">보컬</option>
-									</select></td>
+									</select>
+									<p th:errors="*{board}"></p>
+									</td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
@@ -73,6 +79,7 @@
 									<td colspan="4">
 									<textarea class="content"
 											th:field="*{content}"></textarea>
+									<p th:errors="*{content}" style="color:red; font-weight:bold;"></p>
 									</td>
 								</tr>
 							</tbody>
