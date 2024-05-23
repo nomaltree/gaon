@@ -4,21 +4,36 @@
 	min-height: inherit;
 	width: 205px;
 	float: left;
-	background: url("../images/bg-aside-title.png") no-repeat;
 }
-
 .aside .margin-top{
 	margin-top: 45px;
 }
-
-.aside > h1 {
+.aside div {
+	height:500px;
+	margin-right:10px;
+	padding-left:10px;
+	border: 1px solid lightgray;
+	margin-top:20px;
+	background-color: #F6F6F6;
+}
+.aside div > h1 {
 	font-family: 맑은 고딕, 고딕, sans-serif;
-	font-size: 24px;
+	font-size: 23px;
 	font-weight: bold;
 	color: #000;
-	margin-top: 43px;
+	margin-top: 70px;
+	
+	margin-left:10px;
 }
-
+.aside div > pre {
+	font-family: 맑은 고딕, 고딕, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	color: #000;
+	margin-top:30px;
+	margin-left:0px;
+	
+}
 .aside .menu.text-menu {
 	margin-top: 20px;
 	width: 180px;
