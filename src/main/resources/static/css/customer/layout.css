@@ -1,7 +1,7 @@
 @import url("/gaon/src/main/resources/static/css/reset.css");
 @import url("/gaon/src/main/resources/static/css/style.css");
 @import url("/gaon/src/main/resources/static/css/sub-layout.css");
-@import url("/gaon/src/main/resources/static/css/header.css");
+@import url("./../header.css");
 @import url("/gaon/src/main/resources/static/css/footer.css");
 @import url("/gaon/src/main/resources/static/css/aside.css");
 @import url("/gaon/src/main/resources/static/css/sub-main.css");
