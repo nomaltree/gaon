@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 #visual{
-	background: #313131 url("../images/GaonMain3.png") no-repeat center;	
+	background: #313131 url("./../images/GaonMain3.png") no-repeat center;	
 	height: 260px;
 }
 #nav-menu {
